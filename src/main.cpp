@@ -7,8 +7,8 @@
 
 #define soilMoistPin 35
 
-const char* ssid = "metallica";
-const char* password = "jlmerak6";
+const char* ssid = "***";
+const char* password = "***";
 
 #define FIREBASE_URL "https://hygroplant-default-rtdb.asia-southeast1.firebasedatabase.app/"
 #define API_KEY "AIzaSyBrwjUB4uf0KTcQlNbkEept51eGUr50vI8"
@@ -42,7 +42,6 @@ void setup()
   initFirebase();
   uid = ESP.getEfuseMac();
   Serial.println(uid);
-  // xTaskCreatePinnedToCore(readMoistureTask, "MoistureTask", 1024, NULL, 0, &readMoistureTaskHandle, 0);
 }
 
 void loop()
@@ -56,17 +55,7 @@ void loop()
     json.set("/moisture", soilMoisturePercent);
     databasePath = "/plants/" + uid;
     Serial.printf("%s", Firebase.RTDB.setJSON(&fbdo, databasePath.c_str(), &json) ? "ok" : fbdo.errorReason().c_str());
-    delay(5000);
-  }
-}
-
-void readMoistureTask(void *args)
-{
-  for (;;)
-  {
-    soilMoisture = analogRead(soilMoistPin);
-    soilMoisturePercent = map(soilMoisture, 4095, 0, 0, 100);
-    vTaskDelay(3000 / portTICK_PERIOD_MS);
+    delay(1000);
   }
 }
 
